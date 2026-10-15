@@ -7,6 +7,9 @@ records, skipped = read_valid(lines)
 print(len(records))
 print(skipped)
 
-best = warmest_city(records)
-averages = average_by_city(records)
-print(f"{averages[best]:.1f}")
+if len(records) > 0:
+    best = warmest_city(records)
+    averages = average_by_city(records)
+    print(f"{averages[best]:.1f}")
+else:
+    print("0.0")

@@ -48,8 +48,21 @@ def average_by_city(records):
 
 def warmest_city(records):
     averages = average_by_city(records)
-    best = None
+
+    if len(averages) == 0:
+        raise ValueError("Нет корректных записей")
+
+    best_city = None
+    best_temp = None
+
     for city in averages:
-        if best is None or averages[city] > averages[best]:
-            best = city
-    return best
+        temp = averages[city]
+        if best_city is None:
+            best_city = city
+            best_temp = temp
+        else:
+            if temp > best_temp or (temp == best_temp and city < best_city):
+                best_city = city
+                best_temp = temp
+
+    return best_city

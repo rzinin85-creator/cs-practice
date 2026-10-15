@@ -4,13 +4,13 @@ def parse_record(line):
     if len(parts) != 3:
         raise ValueError("Ожидалось 3 поля, получено " + str(len(parts)))
 
-    city = parts[0]
-    temp_str = parts[1]
-    date = parts[2]
+    city = parts[0].strip()
+    temp_str = parts[1].strip().replace(",", ".")
+    date = parts[2].strip()
 
-    if city.strip() == "":
+    if city == "":
         raise ValueError("Пустой город")
-    if date.strip() == "":
+    if date == "":
         raise ValueError("Пустая дата")
 
     try:
@@ -18,27 +18,27 @@ def parse_record(line):
     except ValueError:
         raise ValueError("Температура не число: " + temp_str)
 
-    return {"city": city, "temp": temp, "date": date}
+    return {"city": city, "temperature": temp, "date": date}
+
 
 def read_valid(lines):
     records = []
-    skipped = 0
-
     for line in lines:
         if line.strip() == "":
             continue
         try:
             records.append(parse_record(line))
         except ValueError:
-            skipped = skipped + 1
+            continue
+    return records
 
-    return records, skipped
+
 def average_by_city(records):
     total = {}
     count = {}
     for record in records:
         city = record["city"]
-        total[city] = total.get(city, 0.0) + record["temp"]
+        total[city] = total.get(city, 0.0) + record["temperature"]
         count[city] = count.get(city, 0) + 1
     averages = {}
     for city in total:

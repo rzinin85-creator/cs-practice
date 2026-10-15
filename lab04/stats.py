@@ -1,14 +1,30 @@
 def parse_record(line):
-    city, temp, date = line.split(";")
-    return {"city": city, "temp": float(temp), "date": date}
+    parts = line.split(";")
 
+    if len(parts) != 3:
+        raise ValueError("Ожидалось 3 поля, получено " + str(len(parts)))
+
+    city = parts[0]
+    temp_str = parts[1]
+    date = parts[2]
+
+    if city.strip() == "":
+        raise ValueError("Пустой город")
+    if date.strip() == "":
+        raise ValueError("Пустая дата")
+
+    try:
+        temp = float(temp_str)
+    except ValueError:
+        raise ValueError("Температура не число: " + temp_str)
+
+    return {"city": city, "temp": temp, "date": date}
 
 def read_valid(lines):
     records = []
     for line in lines:
         records.append(parse_record(line))
     return records, 0
-
 
 def average_by_city(records):
     total = {}

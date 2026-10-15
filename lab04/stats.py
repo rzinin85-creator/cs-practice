@@ -22,10 +22,17 @@ def parse_record(line):
 
 def read_valid(lines):
     records = []
-    for line in lines:
-        records.append(parse_record(line))
-    return records, 0
+    skipped = 0
 
+    for line in lines:
+        if line.strip() == "":
+            continue
+        try:
+            records.append(parse_record(line))
+        except ValueError:
+            skipped = skipped + 1
+
+    return records, skipped
 def average_by_city(records):
     total = {}
     count = {}

@@ -53,6 +53,7 @@ def parse_settings(lines: list[str]) -> dict:
     return result
 
 
+# вспомогательная: порядок проверок важен — int до float
 def _convert_scalar(value: str):
     """Приводит строку к числу/булеву/строке по правилам учебного YAML."""
     low = value.lower()

@@ -8,12 +8,12 @@ def csv_to_records(text: str) -> list[dict]:
     lines = text.splitlines()
     if not lines:
         return []
-    header = lines[0].split(",")
+    header = [h.strip() for h in lines[0].split(",")]
     records = []
     for line in lines[1:]:
-        if line == "":
+        if line.strip() == "":
             continue
-        values = line.split(",")
+        values = [v.strip() for v in line.split(",")]
         records.append(dict(zip(header, values)))
     return records
 
